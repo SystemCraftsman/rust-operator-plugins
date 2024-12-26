@@ -16,7 +16,7 @@ const (
 	crdVersionFlag = "crd-version"
 	namespacedFlag = "namespaced"
 
-	defaultCrdVersion      = "v1"
+	defaultCrdVersion      = "v1alpha1"
 	defaultNamespacedValue = true
 )
 
