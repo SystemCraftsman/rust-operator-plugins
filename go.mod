@@ -2,6 +2,8 @@ module github.com/SystemCraftsman/rust-operator-plugins
 
 go 1.22.10
 
+toolchain go1.22.10
+
 require (
 	github.com/spf13/pflag v1.0.5
 	k8s.io/apimachinery v0.30.5
