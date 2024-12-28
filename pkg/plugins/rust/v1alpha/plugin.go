@@ -8,7 +8,7 @@ import (
 	"sigs.k8s.io/kubebuilder/v4/pkg/plugin"
 )
 
-const pluginName = "base." + rust.DefaultNameQualifier
+const pluginName = rust.DefaultNameQualifier
 
 var (
 	pluginVersion            = plugin.Version{Number: 1, Stage: stage.Alpha}
