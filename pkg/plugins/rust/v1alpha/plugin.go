@@ -13,7 +13,6 @@ const pluginName = rust.DefaultNameQualifier
 var (
 	pluginVersion            = plugin.Version{Number: 1, Stage: stage.Alpha}
 	supportedProjectVersions = []config.Version{cfgv3.Version}
-	pluginKey                = plugin.KeyFor(Plugin{})
 )
 
 var (
