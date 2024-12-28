@@ -3,7 +3,7 @@ package rust
 import (
 	"errors"
 	"fmt"
-	"github.com/SystemCraftsman/rust-operator-plugins/pkg/rust/v1alpha/scaffolds"
+	"github.com/SystemCraftsman/rust-operator-plugins/pkg/plugins/rust/v1alpha/scaffolds"
 	"github.com/spf13/pflag"
 
 	"sigs.k8s.io/kubebuilder/v4/pkg/config"

@@ -2,7 +2,7 @@ package rust
 
 import (
 	"fmt"
-	"github.com/SystemCraftsman/rust-operator-plugins/pkg/rust/v1alpha/scaffolds"
+	"github.com/SystemCraftsman/rust-operator-plugins/pkg/plugins/rust/v1alpha/scaffolds"
 	"os"
 	"path/filepath"
 	"strings"
