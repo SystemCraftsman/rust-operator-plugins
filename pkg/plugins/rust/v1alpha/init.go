@@ -6,6 +6,7 @@ import (
 	"os"
 	"path/filepath"
 	"strings"
+	"unicode"
 
 	"github.com/spf13/pflag"
 	"k8s.io/apimachinery/pkg/util/validation"
@@ -17,25 +18,19 @@ import (
 
 // This file represents the CLI for this plugin.
 
-const (
-	groupFlag   = "group"
-	versionFlag = "version"
-	kindFlag    = "kind"
-)
-
 type initSubcommand struct {
-	apiSubcommand createAPISubcommand
-
 	config config.Config
 
 	// For help text.
 	commandName string
 
+	// boilerplate options
+	license string
+	owner   string
+
 	// Flags
-	group       string
 	domain      string
 	version     string
-	kind        string
 	projectName string
 }
 
@@ -44,24 +39,30 @@ var (
 )
 
 func (p *initSubcommand) UpdateMetadata(cliMeta plugin.CLIMetadata, subcmdMeta *plugin.SubcommandMetadata) {
-	subcmdMeta.Description = `Initialize a new project based on the java-operator-sdk project.
-
-Writes the following files:
-- a basic, Quarkus-based operator set-up
-- a pom.xml file to build the project with Maven
-`
 	p.commandName = cliMeta.CommandName
+
+	subcmdMeta.Description = `Initialize a new project including the following files:
+  - a "PROJECT" file that stores project configuration
+  - a "Makefile" with several useful make targets for the project
+`
+	subcmdMeta.Examples = fmt.Sprintf(`  # Initialize a new project with your domain and name in copyright
+  %[1]s init --plugins rust/v1alpha --domain example.org --owner "Your name"
+
+  # Initialize a new project defining a specific project version
+  %[1]s init --plugins rust/v1alpha --project-version 3
+`, cliMeta.CommandName)
 }
 
 func (p *initSubcommand) BindFlags(fs *pflag.FlagSet) {
 	fs.SortFlags = false
 	fs.StringVar(&p.domain, "domain", "my.domain", "domain for groups")
 	fs.StringVar(&p.projectName, "project-name", "", "name of this project, the default being directory name")
+	fs.StringVar(&p.version, "version", "", "resource Version")
 
-	fs.StringVar(&p.group, groupFlag, "", "resource Group")
-	fs.StringVar(&p.version, versionFlag, "", "resource Version")
-	fs.StringVar(&p.kind, kindFlag, "", "resource Kind")
-	p.apiSubcommand.BindFlags(fs)
+	// boilerplate args
+	fs.StringVar(&p.license, "license", "apache2",
+		"license to use to boilerplate, may be one of 'apache2', 'none'")
+	fs.StringVar(&p.owner, "owner", "", "owner to add to the copyright")
 }
 
 func (p *initSubcommand) InjectConfig(c config.Config) error {
@@ -90,8 +91,21 @@ func (p *initSubcommand) InjectConfig(c config.Config) error {
 	return nil
 }
 
-func (p *initSubcommand) Validate() error {
-	// TODO: validate the conditions you expect before running the plugin
+func (p *initSubcommand) PreScaffold(machinery.Filesystem) error {
+	//TODO: You might want to check the Rust version here
+
+	// Check if the current directory has not files or directories which does not allow to init the project
+	return checkDir()
+}
+
+func (p *initSubcommand) Scaffold(fs machinery.Filesystem) error {
+	scaffolder := scaffolds.NewInitScaffolder(p.config, p.license, p.owner)
+	scaffolder.InjectFS(fs)
+	err := scaffolder.Scaffold()
+	if err != nil {
+		return err
+	}
+
 	return nil
 }
 
@@ -101,8 +115,56 @@ func (p *initSubcommand) PostScaffold() error {
 	return nil
 }
 
-func (p *initSubcommand) Scaffold(fs machinery.Filesystem) error {
-	scaffolder := scaffolds.NewInitScaffolder(p.config)
-	scaffolder.InjectFS(fs)
-	return scaffolder.Scaffold()
+// checkDir will return error if the current directory has files which are not allowed.
+// Note that, it is expected that the directory to scaffold the project is cleaned.
+// Otherwise, it might face issues to do the scaffold.
+func checkDir() error {
+	err := filepath.Walk(".",
+		func(path string, info os.FileInfo, err error) error {
+			if err != nil {
+				return err
+			}
+			// Allow directory trees starting with '.'
+			if info.IsDir() && strings.HasPrefix(info.Name(), ".") && info.Name() != "." {
+				return filepath.SkipDir
+			}
+			// Allow files starting with '.'
+			if strings.HasPrefix(info.Name(), ".") {
+				return nil
+			}
+			// Allow files ending with '.md' extension
+			if strings.HasSuffix(info.Name(), ".md") && !info.IsDir() {
+				return nil
+			}
+			// Allow capitalized files except PROJECT
+			isCapitalized := true
+			for _, l := range info.Name() {
+				if !unicode.IsUpper(l) {
+					isCapitalized = false
+					break
+				}
+			}
+			if isCapitalized && info.Name() != "PROJECT" {
+				return nil
+			}
+			// Allow files in the following list
+			allowedFiles := []string{
+				"Cargo.toml",
+				"Cargo.lock",
+			}
+			for _, allowedFile := range allowedFiles {
+				if info.Name() == allowedFile {
+					return nil
+				}
+			}
+			// Do not allow any other file
+			return fmt.Errorf(
+				"target directory is not empty (only %s, files and directories with the prefix \".\", "+
+					"files with the suffix \".md\" or capitalized files name are allowed); "+
+					"found existing file %q", strings.Join(allowedFiles, ", "), path)
+		})
+	if err != nil {
+		return err
+	}
+	return nil
 }
