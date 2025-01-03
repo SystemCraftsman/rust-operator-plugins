@@ -43,12 +43,6 @@ type MainUpdater struct { //nolint:maligned
 
 	// Flags to indicate which parts need to be included when updating the file
 	WireResource, WireController, WireWebhook bool
-
-	// Deprecated - The flag should be removed from go/v5
-	// IsLegacyPath indicates if webhooks should be scaffolded under the API.
-	// Webhooks are now decoupled from APIs based on controller-runtime updates and community feedback.
-	// This flag ensures backward compatibility by allowing scaffolding in the legacy/deprecated path.
-	IsLegacyPath bool
 }
 
 // GetPath implements file.Builder

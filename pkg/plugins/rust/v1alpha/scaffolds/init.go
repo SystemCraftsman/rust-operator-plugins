@@ -55,6 +55,7 @@ func (s *initScaffolder) Scaffold() error {
 		&src.Main{},
 		&src.Api{},
 		&src.Controller{},
+		&src.CRDGenerator{},
 		&templates.CargoToml{},
 		&templates.GitIgnore{},
 		//TODO makefile
