@@ -58,7 +58,10 @@ func (s *initScaffolder) Scaffold() error {
 		&src.CRDGenerator{},
 		&templates.CargoToml{},
 		&templates.GitIgnore{},
-		//TODO makefile
+		&templates.Makefile{
+			Image: "",
+		},
+		//TODO dockerfile
 		//TODO readme
 	)
 }
