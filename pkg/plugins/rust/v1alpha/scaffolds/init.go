@@ -14,8 +14,6 @@ const (
 
 	// kustomizeVersion is the sigs.k8s.io/kustomize version to be used in the project
 	kustomizeVersion = "v3.5.4"
-
-	imageName = "controller:latest"
 )
 
 var _ plugins.Scaffolder = &initScaffolder{}
@@ -58,9 +56,7 @@ func (s *initScaffolder) Scaffold() error {
 		&src.CRDGenerator{},
 		&templates.CargoToml{},
 		&templates.GitIgnore{},
-		&templates.Makefile{
-			Image: "",
-		},
+		&templates.Makefile{},
 		//TODO dockerfile
 		//TODO readme
 	)
