@@ -57,7 +57,7 @@ func (s *initScaffolder) Scaffold() error {
 		&templates.CargoToml{},
 		&templates.GitIgnore{},
 		&templates.Makefile{},
-		//TODO dockerfile
+		&templates.Dockerfile{},
 		//TODO readme
 	)
 }
