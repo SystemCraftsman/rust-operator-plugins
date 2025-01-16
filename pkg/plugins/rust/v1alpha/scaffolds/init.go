@@ -8,14 +8,6 @@ import (
 	"sigs.k8s.io/kubebuilder/v4/pkg/plugins"
 )
 
-const (
-	// ControllerRuntimeVersion is the kubernetes-sigs/controller-runtime version to be used in the project
-	ControllerRuntimeVersion = "v0.19.1"
-
-	// kustomizeVersion is the sigs.k8s.io/kustomize version to be used in the project
-	kustomizeVersion = "v3.5.4"
-)
-
 var _ plugins.Scaffolder = &initScaffolder{}
 
 type initScaffolder struct {
