@@ -84,17 +84,23 @@ image-push: ## Push container image.
 
 ##@ Deployment
 
+ifndef ignore-not-found
+  ignore-not-found = false
+endif
+
 .PHONY: install
 install: ## Install CRDs into the K8s cluster specified in ~/.kube/config.
 	@$(foreach file, $(wildcard target/kubernetes/*-v1alpha1.yaml), kubectl apply -f $(file);)
 
 .PHONY: uninstall
 uninstall: ## Uninstall CRDs from the K8s cluster specified in ~/.kube/config.
-	@$(foreach file, $(wildcard target/kubernete s/*-v1alpha1.yaml), kubectl delete -f $(file);)
+	@$(foreach file, $(wildcard target/kubernete s/*-v1alpha1.yaml), kubectl delete -f $(file) --ignore-not-found=$(ignore-not-found);)
 
 .PHONY: deploy
-deploy: NOT-IMPLEMENTED ## Deploy controller to the K8s cluster specified in ~/.kube/config.
+deploy: ## Deploy controller to the K8s cluster specified in ~/.kube/config.
+	kubectl create deployment {{ .ProjectName }} --image ${IMG}
 
 .PHONY: undeploy
-undeploy: NOT-IMPLEMENTED ## Undeploy controller from the K8s cluster specified in ~/.kube/config.
+undeploy: ## Undeploy controller from the K8s cluster specified in ~/.kube/config.
+	kubectl delete deployment {{ .ProjectName }} --ignore-not-found=$(ignore-not-found)
 `

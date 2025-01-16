@@ -58,6 +58,7 @@ func (s *initScaffolder) Scaffold() error {
 		&templates.GitIgnore{},
 		&templates.Makefile{},
 		&templates.Dockerfile{},
-		//TODO readme
+		&templates.DockerIgnore{},
+		&templates.Readme{},
 	)
 }

@@ -26,7 +26,7 @@ func (f *Dockerfile) SetTemplateDefaults() error {
 const dockerfileTemplate = `ARG RUST_VERSION=1.84.0
 ARG APP_NAME={{ .ProjectName }}
 
-# Build the controller binary.
+# Build the operator binary.
 FROM rust:${RUST_VERSION}-slim-bullseye AS build
 ARG APP_NAME
 WORKDIR /app
@@ -39,16 +39,15 @@ WORKDIR /app
 # output directory before the cache mounted /app/target is unmounted.
 RUN --mount=type=bind,source=src,target=src \
     --mount=type=bind,source=Cargo.toml,target=Cargo.toml \
-    --mount=type=bind,source=Cargo.lock,target=Cargo.lock \
     --mount=type=cache,target=/app/target/ \
     --mount=type=cache,target=/usr/local/cargo/registry/ \
     <<EOF
 set -e
-cargo build --locked --release
-cp ./target/release/$APP_NAME /bin/controller
+cargo build --release
+cp ./target/release/$APP_NAME /bin/operator
 EOF
 
-# Build the controller image.
+# Build the operator image.
 FROM debian:bullseye-slim AS final
 
 # Create a non-privileged user that the app will run under.
@@ -60,13 +59,12 @@ RUN adduser \
     --shell "/sbin/nologin" \
     --no-create-home \
     --uid "${UID}" \
-    controlleruser
-USER controlleruser
+    operatoruser
+USER operatoruser
 
 # Copy the executable from the "build" stage.
-COPY --from=build /bin/controller /bin/
+COPY --from=build /bin/operator /bin/
 
 # What the container should run when it is started.
-CMD ["/bin/controller"]
-
+CMD ["/bin/operator"]
 `
