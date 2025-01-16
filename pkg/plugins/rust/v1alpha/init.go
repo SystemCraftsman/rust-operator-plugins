@@ -58,11 +58,6 @@ func (p *initSubcommand) BindFlags(fs *pflag.FlagSet) {
 	fs.StringVar(&p.domain, "domain", "my.domain", "domain for groups")
 	fs.StringVar(&p.projectName, "project-name", "", "name of this project, the default being directory name")
 	fs.StringVar(&p.version, "version", "", "resource Version")
-
-	// boilerplate args
-	fs.StringVar(&p.license, "license", "apache2",
-		"license to use to boilerplate, may be one of 'apache2', 'none'")
-	fs.StringVar(&p.owner, "owner", "", "owner to add to the copyright")
 }
 
 func (p *initSubcommand) InjectConfig(c config.Config) error {
@@ -92,8 +87,6 @@ func (p *initSubcommand) InjectConfig(c config.Config) error {
 }
 
 func (p *initSubcommand) PreScaffold(machinery.Filesystem) error {
-	//TODO: You might want to check the Rust version here
-
 	// Check if the current directory has not files or directories which does not allow to init the project
 	return checkDir()
 }
