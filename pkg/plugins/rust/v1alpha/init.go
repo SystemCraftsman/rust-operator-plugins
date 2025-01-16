@@ -24,10 +24,6 @@ type initSubcommand struct {
 	// For help text.
 	commandName string
 
-	// boilerplate options
-	license string
-	owner   string
-
 	// Flags
 	domain      string
 	version     string
@@ -92,7 +88,7 @@ func (p *initSubcommand) PreScaffold(machinery.Filesystem) error {
 }
 
 func (p *initSubcommand) Scaffold(fs machinery.Filesystem) error {
-	scaffolder := scaffolds.NewInitScaffolder(p.config, p.license, p.owner)
+	scaffolder := scaffolds.NewInitScaffolder(p.config)
 	scaffolder.InjectFS(fs)
 	err := scaffolder.Scaffold()
 	if err != nil {
