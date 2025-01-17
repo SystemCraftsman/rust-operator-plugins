@@ -11,10 +11,7 @@ import (
 var _ plugins.Scaffolder = &initScaffolder{}
 
 type initScaffolder struct {
-	config          config.Config
-	boilerplatePath string
-	license         string
-	owner           string
+	config config.Config
 
 	// fs is the filesystem that will be used by the scaffolder
 	fs machinery.Filesystem
