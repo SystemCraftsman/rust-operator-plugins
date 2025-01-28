@@ -17,7 +17,6 @@ import (
 )
 
 // This file represents the CLI for this plugin.
-
 type initSubcommand struct {
 	config config.Config
 
@@ -30,9 +29,7 @@ type initSubcommand struct {
 	projectName string
 }
 
-var (
-	_ plugin.InitSubcommand = &initSubcommand{}
-)
+var _ plugin.InitSubcommand = &initSubcommand{}
 
 func (p *initSubcommand) UpdateMetadata(cliMeta plugin.CLIMetadata, subcmdMeta *plugin.SubcommandMetadata) {
 	p.commandName = cliMeta.CommandName
@@ -98,10 +95,9 @@ func (p *initSubcommand) Scaffold(fs machinery.Filesystem) error {
 	return nil
 }
 
-func (p *initSubcommand) PostScaffold() error {
+func (p *initSubcommand) PostScaffold() {
 	// print follow on instructions to better guide the user
 	fmt.Printf("Next: define a resource with:\n$ %s create api\n", p.commandName)
-	return nil
 }
 
 // checkDir will return error if the current directory has files which are not allowed.
