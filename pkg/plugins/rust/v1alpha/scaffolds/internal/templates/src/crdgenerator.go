@@ -2,9 +2,9 @@ package src
 
 import (
 	"fmt"
-	localmachinery "github.com/SystemCraftsman/rust-operator-plugins/pkg/machinery"
 	"path/filepath"
 	"sigs.k8s.io/kubebuilder/v4/pkg/machinery"
+	"strings"
 )
 
 const (
@@ -26,7 +26,7 @@ func (f *CRDGenerator) SetTemplateDefaults() error {
 	}
 
 	f.TemplateBody = fmt.Sprintf(crdGeneratorTemplate,
-		localmachinery.NewMarkerFor(f.Path, writerMarker),
+		machinery.NewMarkerFor(f.Path, writerMarker),
 	)
 
 	return nil
@@ -38,7 +38,7 @@ type CRDGeneratorUpdater struct { //nolint:maligned
 	machinery.ResourceMixin
 
 	// Flags to indicate which parts need to be included when updating the file
-	WireResource, WireController, WireWebhook bool
+	WireResource, WireController bool
 }
 
 // GetPath implements file.Builder
@@ -75,7 +75,7 @@ func (f *CRDGeneratorUpdater) GetCodeFragments() machinery.CodeFragmentsMap {
 	// Generate writer code fragments
 	writers := make([]string, 0)
 	if f.WireController {
-		writers = append(writers, fmt.Sprintf(writerCodeFragment, f.Resource.Kind, f.Resource.Kind))
+		writers = append(writers, fmt.Sprintf(writerCodeFragment, strings.ToLower(f.Resource.Kind), f.Resource.Kind))
 	}
 
 	// Only store code fragments in the map if the slices are non-empty

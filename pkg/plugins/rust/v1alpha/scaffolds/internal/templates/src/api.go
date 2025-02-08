@@ -2,10 +2,10 @@ package src
 
 import (
 	"fmt"
-	localmachinery "github.com/SystemCraftsman/rust-operator-plugins/pkg/machinery"
 	"github.com/SystemCraftsman/rust-operator-plugins/pkg/plugins/rust/v1alpha/constants"
 	"path/filepath"
 	"sigs.k8s.io/kubebuilder/v4/pkg/machinery"
+	"strings"
 )
 
 const (
@@ -25,7 +25,7 @@ func (f *Api) SetTemplateDefaults() error {
 	}
 
 	f.TemplateBody = fmt.Sprintf(apiTemplate,
-		localmachinery.NewMarkerFor(f.Path, constants.ModuleMarker),
+		machinery.NewMarkerFor(f.Path, constants.ModuleMarker),
 	)
 
 	return nil
@@ -37,12 +37,12 @@ type ApiUpdater struct { //nolint:maligned
 	machinery.ResourceMixin
 
 	// Flags to indicate which parts need to be included when updating the file
-	WireResource, WireController, WireWebhook bool
+	WireResource, WireController bool
 }
 
 // GetPath implements file.Builder
 func (*ApiUpdater) GetPath() string {
-	return defaultMainPath
+	return defaultApiPath
 }
 
 // GetIfExistsAction implements file.Builder
@@ -73,8 +73,8 @@ func (f *ApiUpdater) GetCodeFragments() machinery.CodeFragmentsMap {
 
 	// Generate module code fragments
 	modules := make([]string, 0)
-	if f.WireController {
-		modules = append(modules, fmt.Sprintf(moduleImportCodeFragment, f.Resource.Kind))
+	if f.WireResource {
+		modules = append(modules, fmt.Sprintf(moduleImportCodeFragment, strings.ToLower(f.Resource.Kind)))
 	}
 
 	// Only store code fragments in the map if the slices are non-empty

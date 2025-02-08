@@ -24,14 +24,14 @@ const (
 	controllerFlag = "controller"
 
 	isForced              = false
-	defaultCrdVersion     = "v1alpha1"
+	defaultCrdVersion     = "v1beta1"
 	isNamespaced          = true
 	isResourceAPICreation = true
 	isControllerCreation  = true
 )
 
 // DefaultMainPath is default file path of main.go
-const DefaultMainPath = "cmd/main.go"
+const DefaultMainPath = "src/main.rs"
 
 var _ plugin.CreateAPISubcommand = &createAPISubcommand{}
 
@@ -116,7 +116,7 @@ func (p *createAPISubcommand) InjectResource(res *resource.Resource) error {
 		p.options.DoController = util.YesNo(reader)
 	}
 
-	p.options.UpdateResource(p.resource, p.config)
+	p.options.UpdateResource(p.resource)
 
 	if err := p.resource.Validate(); err != nil {
 		return err
@@ -148,18 +148,14 @@ func (p *createAPISubcommand) Scaffold(fs machinery.Filesystem) error {
 	return scaffolder.Scaffold()
 }
 
-func (p *createAPISubcommand) PostScaffold() {
+func (p *createAPISubcommand) PostScaffold() error {
+	err := util.RunCmd("Format code", "cargo", "fmt")
+	if err != nil {
+		return err
+	}
 	if p.resource.HasAPI() {
 		// print follow on instructions to better guide the user
 		fmt.Print("Next: implement your new API and generate the CRDs with:\n$ make generate-crds\n")
 	}
-}
-
-// hasDifferentCRDVersion returns true if any other CRD version is tracked in the project configuration.
-func (p *createAPISubcommand) hasDifferentCRDVersion(config config.Config, crdVersion string) bool {
-	return hasDifferentAPIVersion(config.ListCRDVersions(), crdVersion)
-}
-
-func hasDifferentAPIVersion(versions []string, version string) bool {
-	return !(len(versions) == 0 || (len(versions) == 1 && versions[0] == version))
+	return nil
 }

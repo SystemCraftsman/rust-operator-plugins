@@ -2,8 +2,9 @@ package scaffolds
 
 import (
 	"fmt"
+	"github.com/SystemCraftsman/rust-operator-plugins/pkg/plugins/rust/v1alpha/scaffolds/internal/templates/src"
 	"github.com/SystemCraftsman/rust-operator-plugins/pkg/plugins/rust/v1alpha/scaffolds/internal/templates/src/api"
-	"github.com/spf13/afero"
+	"github.com/SystemCraftsman/rust-operator-plugins/pkg/plugins/rust/v1alpha/scaffolds/internal/templates/src/controller"
 	"log"
 	"sigs.k8s.io/kubebuilder/v4/pkg/config"
 	"sigs.k8s.io/kubebuilder/v4/pkg/machinery"
@@ -43,20 +44,9 @@ func (s *apiScaffolder) InjectFS(fs machinery.Filesystem) {
 func (s *apiScaffolder) Scaffold() error {
 	log.Println("Writing scaffold for you to edit...")
 
-	// Load the boilerplate
-	boilerplate, err := afero.ReadFile(s.fs.FS, hack.DefaultBoilerplatePath)
-	if err != nil {
-		if errors.Is(err, afero.ErrFileNotFound) {
-			boilerplate = []byte("")
-		} else {
-			return fmt.Errorf("error scaffolding API/controller: unable to load boilerplate: %w", err)
-		}
-	}
-
 	// Initialize the machinery.Scaffold that will write the files to disk
 	scaffold := machinery.NewScaffold(s.fs,
 		machinery.WithConfig(s.config),
-		machinery.WithBoilerplate(string(boilerplate)),
 		machinery.WithResource(&s.resource),
 	)
 
@@ -74,20 +64,38 @@ func (s *apiScaffolder) Scaffold() error {
 		); err != nil {
 			return fmt.Errorf("error scaffolding APIs: %v", err)
 		}
+
+		if err := scaffold.Execute(
+			&src.ApiUpdater{WireResource: doAPI, WireController: doController},
+		); err != nil {
+			return fmt.Errorf("error updating src/api.rs: %v", err)
+		}
+
+		if err := scaffold.Execute(
+			&src.CRDGeneratorUpdater{WireResource: doAPI, WireController: doController},
+		); err != nil {
+			return fmt.Errorf("error updating src/crd_generator.rs: %v", err)
+		}
 	}
 
 	if doController {
 		if err := scaffold.Execute(
-			&controllers.Controller{ControllerRuntimeVersion: ControllerRuntimeVersion, Force: s.force},
+			&controller.Controllers{Force: s.force},
 		); err != nil {
 			return fmt.Errorf("error scaffolding controller: %v", err)
 		}
-	}
 
-	if err := scaffold.Execute(
-		&cmd.MainUpdater{WireResource: doAPI, WireController: doController},
-	); err != nil {
-		return fmt.Errorf("error updating cmd/main.go: %v", err)
+		if err := scaffold.Execute(
+			&src.ControllerUpdater{WireResource: doAPI, WireController: doController},
+		); err != nil {
+			return fmt.Errorf("error updating src/controller.rs: %v", err)
+		}
+
+		if err := scaffold.Execute(
+			&src.MainUpdater{WireResource: doAPI, WireController: doController},
+		); err != nil {
+			return fmt.Errorf("error updating src/main.rs: %v", err)
+		}
 	}
 
 	return nil

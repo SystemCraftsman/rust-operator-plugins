@@ -1,7 +1,6 @@
 package rust
 
 import (
-	"sigs.k8s.io/kubebuilder/v4/pkg/config"
 	"sigs.k8s.io/kubebuilder/v4/pkg/model/resource"
 )
 
@@ -14,10 +13,9 @@ type Options struct {
 }
 
 // UpdateResource updates the provided resource with the options
-func (opts Options) UpdateResource(res *resource.Resource, c config.Config) {
+func (opts Options) UpdateResource(res *resource.Resource) {
 	if opts.DoAPI {
-		//nolint:staticcheck
-		res.Path = resource.APIPackagePath(c.GetRepository(), res.Group, res.Version, c.IsMultiGroup())
+		res.Path = ""
 
 		res.API = &resource.API{
 			CRDVersion: opts.CRDVersion,

@@ -2,9 +2,9 @@ package src
 
 import (
 	"fmt"
-	localmachinery "github.com/SystemCraftsman/rust-operator-plugins/pkg/machinery"
 	"path/filepath"
 	"sigs.k8s.io/kubebuilder/v4/pkg/machinery"
+	"strings"
 )
 
 const (
@@ -28,8 +28,8 @@ func (f *Main) SetTemplateDefaults() error {
 	}
 
 	f.TemplateBody = fmt.Sprintf(mainTemplate,
-		localmachinery.NewMarkerFor(f.Path, importMarker),
-		localmachinery.NewMarkerFor(f.Path, runnerMarker),
+		machinery.NewMarkerFor(f.Path, importMarker),
+		machinery.NewMarkerFor(f.Path, runnerMarker),
 	)
 
 	return nil
@@ -37,12 +37,12 @@ func (f *Main) SetTemplateDefaults() error {
 
 var _ machinery.Inserter = &MainUpdater{}
 
-// MainUpdater updates cmd/main.go to run Controllers
+// MainUpdater updates src/main.rs to add reconcilers
 type MainUpdater struct { //nolint:maligned
 	machinery.ResourceMixin
 
 	// Flags to indicate which parts need to be included when updating the file
-	WireResource, WireController, WireWebhook bool
+	WireResource, WireController bool
 }
 
 // GetPath implements file.Builder
@@ -84,7 +84,7 @@ func (f *MainUpdater) GetCodeFragments() machinery.CodeFragmentsMap {
 	// Generate import code fragments
 	imports := make([]string, 0)
 	if f.WireController {
-		imports = append(imports, fmt.Sprintf(reconcilerImportCodeFragment, f.Resource.Kind, f.Resource.Kind))
+		imports = append(imports, fmt.Sprintf(reconcilerImportCodeFragment, strings.ToLower(f.Resource.Kind), f.Resource.Kind))
 	}
 
 	// Generate setup code fragments
