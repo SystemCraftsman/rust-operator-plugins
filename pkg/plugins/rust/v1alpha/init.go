@@ -38,8 +38,8 @@ func (p *initSubcommand) UpdateMetadata(cliMeta plugin.CLIMetadata, subcmdMeta *
   - a "PROJECT" file that stores project configuration
   - a "Makefile" with several useful make targets for the project
 `
-	subcmdMeta.Examples = fmt.Sprintf(`  # Initialize a new project with your domain and name in copyright
-  %[1]s init --plugins rust/v1alpha --domain example.org --owner "Your name"
+	subcmdMeta.Examples = fmt.Sprintf(`  # Initialize a new project with your domain name
+  %[1]s init --plugins rust/v1alpha --domain example.org
 
   # Initialize a new project defining a specific project version
   %[1]s init --plugins rust/v1alpha --project-version 3

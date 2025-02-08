@@ -57,21 +57,18 @@ was not explicitly provided, it will prompt the user if they should be.
 After the scaffold is written, the dependencies will be updated and
 make generate will be run.
 `
-	subcmdMeta.Examples = fmt.Sprintf(`  # Create a frigates API with Group: ship, Version: v1beta1 and Kind: Frigate
-  %[1]s create api --group ship --version v1beta1 --kind Frigate
+	subcmdMeta.Examples = fmt.Sprintf(`  # Create a frigates API with Group: ship, Version: v1 and Kind: Frigate
+  %[1]s create api --group ship --version v1 --kind Frigate
 
   # Edit the API Scheme
 
-  nano api/v1beta1/frigate_types.go
+  vim src/api/frigate_types.rs
 
   # Edit the Controller
-  nano internal/controller/frigate/frigate_controller.go
+  vim src/controller/frigate_controller.rs
 
-  # Edit the Controller Test
-  nano internal/controller/frigate/frigate_controller_test.go
-
-  # Generate the manifests
-  make manifests
+  # Generate CRDs
+  make generate-crds
 
   # Install CRDs into the Kubernetes cluster using kubectl apply
   make install
