@@ -37,7 +37,7 @@ func (f *Types) SetTemplateDefaults() error {
 }
 
 const typesTemplate = `use k8s_openapi::serde::{Deserialize, Serialize};
-use kube::{CustomResource};
+use kube::CustomResource;
 use schemars::JsonSchema;
 
 #[derive(CustomResource, Deserialize, Serialize, Clone, Debug, JsonSchema)]

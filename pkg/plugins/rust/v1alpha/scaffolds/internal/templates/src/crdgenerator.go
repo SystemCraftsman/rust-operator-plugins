@@ -95,8 +95,7 @@ use std::fs;
 use std::fs::File;
 
 fn main() {
-    fs::create_dir_all("target/kubernetes")
-        .expect("Error creating directory 'target/kubernetes'");
+    fs::create_dir_all("target/kubernetes").expect("Error creating directory 'target/kubernetes'");
     %s
 }
 
