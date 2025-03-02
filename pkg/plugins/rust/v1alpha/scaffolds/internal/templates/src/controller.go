@@ -105,6 +105,7 @@ pub trait Reconciler<K: Resource<Scope = NamespaceResourceScope>> {
     async fn reconcile(obj: Arc<K>, ctx: Arc<ContextData>) -> Result<Action, Error>;
     fn error_policy(obj: Arc<K>, err: &Error, _ctx: Arc<ContextData>) -> Action;
 }
+
 pub struct ControllerRunner<K: Resource<Scope = NamespaceResourceScope>> {
     _resource_marker: marker::PhantomData<K>,
 }
