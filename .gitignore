@@ -25,5 +25,8 @@ go.work.sum
 .env
 
 # IDE folders/files
-
 .idea
+
+# Build output
+/bin
+/operator-sdk

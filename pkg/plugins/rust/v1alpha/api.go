@@ -24,7 +24,6 @@ const (
 	controllerFlag = "controller"
 
 	isForced              = false
-	defaultCrdVersion     = "v1beta1"
 	isNamespaced          = true
 	isResourceAPICreation = true
 	isControllerCreation  = true
@@ -83,8 +82,7 @@ func (p *createAPISubcommand) BindFlags(fs *pflag.FlagSet) {
 		"attempt to create resource even if it already exists")
 
 	p.options = &rust.Options{}
-
-	fs.StringVar(&p.options.CRDVersion, crdVersionFlag, defaultCrdVersion, "crd version to generate")
+	
 	fs.BoolVar(&p.options.Namespaced, namespacedFlag, isNamespaced, "resource is namespaced")
 	fs.BoolVar(&p.options.DoAPI, resourceFlag, isResourceAPICreation,
 		"if set, generate the resource without prompting the user")

@@ -6,7 +6,6 @@ import (
 
 // Options contains the information required to build a new resource.Resource.
 type Options struct {
-	CRDVersion   string
 	Namespaced   bool
 	DoAPI        bool
 	DoController bool
@@ -18,7 +17,7 @@ func (opts Options) UpdateResource(res *resource.Resource) {
 		res.Path = ""
 
 		res.API = &resource.API{
-			CRDVersion: opts.CRDVersion,
+			CRDVersion: "v1",
 			Namespaced: opts.Namespaced,
 		}
 
