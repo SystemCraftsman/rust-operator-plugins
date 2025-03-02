@@ -23,7 +23,7 @@ Kubernetes operators written in Rust.
 
 Ensure that you have the following installed on your system:
 
-- [Go 1.23+](https://golang.org/dl/)
+- [Go 1.23.x](https://golang.org/dl/)
 - [Cargo CLI via Rust 1.85+](https://www.rust-lang.org/)
 - [Git CLI](https://git-scm.com/downloads)
 - Make
