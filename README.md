@@ -1,3 +1,90 @@
-# rust-operator-plugins
+# Rust Operator SDK Plugin
 
-A project to create a Operator SDK plugin for Rust. WIP
+A Rust-based plugin for the [Operator SDK](https://sdk.operatorframework.io/) that helps you scaffold Kubernetes Operators with
+a focus on integrating Rust-based applications. This project aims to simplify and enhance the development experience for
+Kubernetes operators written in Rust.
+
+## Features
+
+- An Operator SDK plugin to enable scaffolding, building, and testing (coming soon) Kubernetes operators with Rust.
+- Supports common Kubernetes resources like CRDs, and controllers.
+- Customizable templates and scaffolding for different operator components.
+- Designed with the goal of improving the developer experience for Rust developers in the Kubernetes ecosystem.
+
+## Why Rust?
+
+* https://www.youtube.com/watch?v=2q3RLffSvEc
+* https://www.youtube.com/watch?v=rXS-3hFYVjc
+* https://www.youtube.com/watch?v=Z8ciQpsQc4E&list=PLj6h78yzYM2MKPAas7pxIvueTbwFqVRCX
+
+## Installation
+
+### Prerequisites
+
+Ensure that you have the following installed on your system:
+
+- [Go 1.23+](https://golang.org/dl/)
+- [Cargo CLI via Rust 1.85+](https://www.rust-lang.org/)
+- [Git CLI](https://git-scm.com/downloads)
+- Make
+
+### Installing the Plugin
+
+To install this Rust Operator SDK plugin, use the following steps:
+
+1. Clone the repository:
+
+ ```bash
+ git clone https://github.com/SystemCraftsman/rust-operator-plugins.git
+ cd rust-operator-plugins
+ ```
+   
+2. Initialize the Operator SDK within the project:
+
+```bash
+make init-sdk
+````
+
+This fetches a required version of the Operator SDK, configures it for local development.
+
+3. Build the plugin:
+
+```bash
+make build
+```
+
+This comamnd builds Operator SDK with the Rust Operator Plugin included.
+
+4. Install the plugin (for local development):
+
+```bash
+make install
+```
+
+This installs an Operator SDK binary with the Rust Operator Plugin.
+
+5. You should now be able to use the plugin with the Operator SDK CLI.
+
+## Usage
+
+Once installed, you can use this plugin with the `operator-sdk` command-line tool to initialize a new operator project
+written in Rust.
+
+### Initialize a New Operator
+
+Following is an example of initializing the operator in your `<project_directory>`:
+
+```bash
+cd <project_directory>
+operator-sdk init --plugins rust/v1alpha --domain <your-domain>
+```
+
+### Initialize a New Operator
+
+To create a new API with resources and the controllers scaffolded, you should run a command as follows:
+
+```bash
+operator-sdk create api --group <your-api-group>  --version <api-version> --kind <crd-name>  --resource --controller
+```
+
+Additionally, you can create the `resource` and `controller` with separate commands.

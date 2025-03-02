@@ -48,20 +48,11 @@ download-sdk: ## Download Operator SDK
 	rm -rf $(OPERATOR_SDK_DIR_NAME)
 	git clone -b $(OPERATOR_SDK_BRANCH) $(OPERATOR_SDK_REPO_PATH)
 
-.PHONY: configure-sdk
+.PHONY: init-sdk
 configure-sdk: download-sdk ## Configure Operator SDK
 	cd $(OPERATOR_SDK_DIR_NAME) && go mod edit -replace github.com/SystemCraftsman/rust-operator-plugins=..
 	cd $(OPERATOR_SDK_DIR_NAME) && go mod edit -replace sigs.k8s.io/kubebuilder/v4=github.com/mabulgu/kubebuilder/v4@rust-lang
 	cd $(OPERATOR_SDK_DIR_NAME) && go mod tidy
-
-.PHONY: clean-build
-build: configure-sdk ## Build plugin with Operator SDK
-	cd $(OPERATOR_SDK_DIR_NAME) && make $@
-	cp $(OPERATOR_SDK_DIR_NAME)/build/$(OPERATOR_SDK_BIN_NAME) $(BUILD_DIR)
-
-.PHONY: clean-install
-install: configure-sdk ## Install operator
-	cd $(OPERATOR_SDK_DIR_NAME) && make $@
 
 .PHONY: build
 build: ## Build plugin with Operator SDK
@@ -69,5 +60,5 @@ build: ## Build plugin with Operator SDK
 	cp $(OPERATOR_SDK_DIR_NAME)/build/$(OPERATOR_SDK_BIN_NAME) $(BUILD_DIR)
 
 .PHONY: install
-install: ## Install operator
+install: ## Install Operator SDK CLI
 	cd $(OPERATOR_SDK_DIR_NAME) && make $@
