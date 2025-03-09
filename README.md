@@ -32,34 +32,34 @@ To install this Rust Operator SDK plugin, use the following steps:
 
 1. Clone the repository:
 
- ```bash
- git clone https://github.com/SystemCraftsman/rust-operator-plugins.git
- cd rust-operator-plugins
- ```
+     ```bash
+     git clone https://github.com/SystemCraftsman/rust-operator-plugins.git
+     cd rust-operator-plugins
+     ```
    
 2. Initialize the Operator SDK within the project:
 
-```bash
-make init-sdk
-````
+    ```bash
+    make init-sdk
+    ````
 
-This fetches a required version of the Operator SDK, configures it for local development.
+    This fetches a required version of the Operator SDK, configures it for local development.
 
 3. Build the plugin:
 
-```bash
-make build
-```
+    ```bash
+    make build
+    ```
 
-This comamnd builds Operator SDK with the Rust Operator Plugin included.
+    This comamnd builds Operator SDK with the Rust Operator Plugin included.
 
 4. Install the plugin (for local development):
 
-```bash
-make install
-```
+    ```bash
+    make install
+    ```
 
-This installs an Operator SDK binary with the Rust Operator Plugin.
+    This installs an Operator SDK binary with the Rust Operator Plugin.
 
 5. You should now be able to use the plugin with the Operator SDK CLI.
 
