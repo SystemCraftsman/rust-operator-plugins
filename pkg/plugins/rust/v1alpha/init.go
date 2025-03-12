@@ -95,9 +95,10 @@ func (p *initSubcommand) Scaffold(fs machinery.Filesystem) error {
 	return nil
 }
 
-func (p *initSubcommand) PostScaffold() {
+func (p *initSubcommand) PostScaffold() error {
 	// print follow on instructions to better guide the user
 	fmt.Printf("Next: define a resource with:\n$ %s create api\n", p.commandName)
+	return nil
 }
 
 // checkDir will return error if the current directory has files which are not allowed.
