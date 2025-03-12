@@ -39,10 +39,7 @@ lint:
 
 .PHONY: test
 test:
-	@go mod edit -replace sigs.k8s.io/kubebuilder/v4=github.com/mabulgu/kubebuilder/v4@rust-lang
-	@go mod tidy
-	@go test -coverprofile=coverage.out -covermode=count -short ./... ; go mod edit -dropreplace=sigs.k8s.io/kubebuilder/v4
-	@go mod tidy
+	@go test -coverprofile=coverage.out -covermode=count -short ./...
 
 ##@ Build
 
