@@ -1,3 +1,5 @@
+> WARNING: **Just hold on before sharing this repo publicly! This will be announced on social media and YouTube soon!**
+
 # Rust Operator SDK Plugin
 
 A Rust-based plugin for the [Operator SDK](https://sdk.operatorframework.io/) that helps you scaffold Kubernetes Operators with Rust. This project aims to simplify and enhance the development experience for Kubernetes operators written in Rust.
