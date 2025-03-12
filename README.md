@@ -1,4 +1,4 @@
-> WARNING: **Just hold on before sharing this repo publicly! This will be announced on social media and YouTube soon!**
+> WARNING: **Just hold on before sharing this repo publicly! This will be announced on social media and YouTube soon! Thanks for your patience:)**
 
 # Rust Operator SDK Plugin
 
