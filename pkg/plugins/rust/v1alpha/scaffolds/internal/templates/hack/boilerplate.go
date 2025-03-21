@@ -9,7 +9,7 @@ import (
 )
 
 // DefaultBoilerplatePath is the default path to the boilerplate file
-var DefaultBoilerplatePath = filepath.Join("hack", "boilerplate.go.txt")
+var DefaultBoilerplatePath = filepath.Join("hack", "boilerplate.rs.txt")
 
 var _ machinery.Template = &Boilerplate{}
 

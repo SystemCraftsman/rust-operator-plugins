@@ -13,6 +13,7 @@ var _ machinery.Template = &Types{}
 type Types struct {
 	machinery.TemplateMixin
 	machinery.ResourceMixin
+	machinery.BoilerplateMixin
 
 	Force bool
 }
@@ -36,7 +37,9 @@ func (f *Types) SetTemplateDefaults() error {
 	return nil
 }
 
-const typesTemplate = `use k8s_openapi::serde::{Deserialize, Serialize};
+const typesTemplate = `{{ .Boilerplate }}
+
+use k8s_openapi::serde::{Deserialize, Serialize};
 use kube::CustomResource;
 use schemars::JsonSchema;
 

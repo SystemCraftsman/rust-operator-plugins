@@ -16,6 +16,7 @@ var _ machinery.Template = &Api{}
 
 type Api struct {
 	machinery.TemplateMixin
+	machinery.BoilerplateMixin
 }
 
 // SetTemplateDefaults implements file.Template
@@ -86,5 +87,7 @@ func (f *ApiUpdater) GetCodeFragments() machinery.CodeFragmentsMap {
 }
 
 // nolint:lll
-var apiTemplate = `%s
+var apiTemplate = `{{ .Boilerplate }}
+
+%s
 `

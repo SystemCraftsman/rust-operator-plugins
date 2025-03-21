@@ -23,7 +23,7 @@ const cargoTomlTemplate = `[package]
 name = "{{ .ProjectName }}"
 version = "0.1.0"
 edition = "2024"
-rust-version = "1.85.0"
+rust-version = "1.85.1"
 
 [[bin]]
 name = "crdgen"

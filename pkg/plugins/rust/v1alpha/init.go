@@ -20,6 +20,10 @@ import (
 type initSubcommand struct {
 	config config.Config
 
+	// boilerplate options
+	license string
+	owner   string
+
 	// For help text.
 	commandName string
 
@@ -85,7 +89,7 @@ func (p *initSubcommand) PreScaffold(machinery.Filesystem) error {
 }
 
 func (p *initSubcommand) Scaffold(fs machinery.Filesystem) error {
-	scaffolder := scaffolds.NewInitScaffolder(p.config)
+	scaffolder := scaffolds.NewInitScaffolder(p.config, p.license, p.owner, p.commandName)
 	scaffolder.InjectFS(fs)
 	err := scaffolder.Scaffold()
 	if err != nil {

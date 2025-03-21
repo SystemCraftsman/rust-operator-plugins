@@ -48,7 +48,7 @@ download-sdk: ## Download Operator SDK
 	rm -rf $(OPERATOR_SDK_DIR_NAME)
 	git clone -b $(OPERATOR_SDK_BRANCH) $(OPERATOR_SDK_REPO_PATH)
 
-.PHONY: init-sdk
+.PHONY: configure-sdk
 configure-sdk: download-sdk ## Configure Operator SDK
 	cd $(OPERATOR_SDK_DIR_NAME) && go mod edit -replace github.com/SystemCraftsman/rust-operator-plugins=..
 	cd $(OPERATOR_SDK_DIR_NAME) && go mod edit -replace sigs.k8s.io/kubebuilder/v4=github.com/mabulgu/kubebuilder/v4@rust-lang
