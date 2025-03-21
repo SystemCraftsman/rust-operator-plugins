@@ -1,4 +1,4 @@
-ARG RUST_VERSION=1.85.0
+ARG RUST_VERSION=1.85.1
 ARG APP_NAME=memcached-operator
 
 # Build the operator binary.
