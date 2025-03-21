@@ -27,6 +27,10 @@ type initSubcommand struct {
 	// For help text.
 	commandName string
 
+	// boilerplate options
+	license string
+	owner   string
+
 	// Flags
 	domain      string
 	version     string
@@ -39,14 +43,19 @@ func (p *initSubcommand) UpdateMetadata(cliMeta plugin.CLIMetadata, subcmdMeta *
 	p.commandName = cliMeta.CommandName
 
 	subcmdMeta.Description = `Initialize a new project including the following files:
+  - a "Cargo.toml" with project dependencies
   - a "PROJECT" file that stores project configuration
   - a "Makefile" with several useful make targets for the project
+  - a "Dockerfile" that helps containerizing the project
+  - a "src/main.rs" file that runs controller reconcilers
+  - a "src/controller.rs" file that provides a runner for controllers
+  - a "src/crd_generator.rs" file helps generating CRDs
 `
-	subcmdMeta.Examples = fmt.Sprintf(`  # Initialize a new project with your domain name
-  %[1]s init --plugins rust/v1alpha --domain example.org
+	subcmdMeta.Examples = fmt.Sprintf(`  # Initialize a new project with your domain and name in copyright
+  %[1]s init --plugins rust/v1alpha --domain example.org --owner "Your name"
 
   # Initialize a new project defining a specific project version
-  %[1]s init --plugins rust/v1alpha --project-version 3
+  %[1]s init --plugins rust/v1alpha --version 3
 `, cliMeta.CommandName)
 }
 
@@ -55,6 +64,11 @@ func (p *initSubcommand) BindFlags(fs *pflag.FlagSet) {
 	fs.StringVar(&p.domain, "domain", "my.domain", "domain for groups")
 	fs.StringVar(&p.projectName, "project-name", "", "name of this project, the default being directory name")
 	fs.StringVar(&p.version, "version", "", "resource version")
+
+	// boilerplate args
+	fs.StringVar(&p.license, "license", "apache2",
+		"license to use to boilerplate, may be one of 'apache2', 'none'")
+	fs.StringVar(&p.owner, "owner", "", "owner to add to the copyright")
 }
 
 func (p *initSubcommand) InjectConfig(c config.Config) error {
