@@ -20,10 +20,6 @@ import (
 type initSubcommand struct {
 	config config.Config
 
-	// boilerplate options
-	license string
-	owner   string
-
 	// For help text.
 	commandName string
 
