@@ -16,6 +16,7 @@ var _ machinery.Template = &Controller{}
 
 type Controller struct {
 	machinery.TemplateMixin
+	machinery.BoilerplateMixin
 }
 
 // SetTemplateDefaults implements file.Template
@@ -86,7 +87,9 @@ func (f *ControllerUpdater) GetCodeFragments() machinery.CodeFragmentsMap {
 }
 
 // nolint:lll
-var controllerTemplate = `%s
+var controllerTemplate = `{{ .Boilerplate }}
+
+%s
 
 use async_trait::async_trait;
 use futures::stream::StreamExt;

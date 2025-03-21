@@ -19,6 +19,7 @@ var _ machinery.Template = &Main{}
 // Main scaffolds a file that defines the controller manager entry point
 type Main struct {
 	machinery.TemplateMixin
+	machinery.BoilerplateMixin
 }
 
 // SetTemplateDefaults implements file.Template
@@ -105,7 +106,9 @@ func (f *MainUpdater) GetCodeFragments() machinery.CodeFragmentsMap {
 }
 
 // nolint:lll
-var mainTemplate = `mod api;
+var mainTemplate = `{{ .Boilerplate }}
+
+mod api;
 mod controller;
 
 use crate::controller::ControllerRunner;

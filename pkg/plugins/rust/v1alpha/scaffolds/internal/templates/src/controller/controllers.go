@@ -15,6 +15,7 @@ var _ machinery.Template = &Controllers{}
 type Controllers struct {
 	machinery.TemplateMixin
 	machinery.ResourceMixin
+	machinery.BoilerplateMixin
 
 	Force bool
 }
@@ -40,7 +41,9 @@ func (f *Controllers) SetTemplateDefaults() error {
 }
 
 //nolint:lll
-const controllerTemplate = `use crate::api::{{ lower .Resource.Kind }}_types::{{ .Resource.Kind }};
+const controllerTemplate = `{{ .Boilerplate }}
+
+use crate::api::{{ lower .Resource.Kind }}_types::{{ .Resource.Kind }};
 use crate::controller::{ContextData, Error, Reconciler};
 use async_trait::async_trait;
 use kube::runtime::controller::Action;

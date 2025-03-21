@@ -3,6 +3,7 @@ package templates
 import (
 	"fmt"
 	"sigs.k8s.io/kubebuilder/v4/pkg/machinery"
+	"strings"
 )
 
 var _ machinery.Template = &Readme{}
@@ -11,6 +12,9 @@ var _ machinery.Template = &Readme{}
 type Readme struct {
 	machinery.TemplateMixin
 	machinery.ProjectNameMixin
+	machinery.BoilerplateMixin
+
+	License string
 }
 
 // SetTemplateDefaults implements file.Template
@@ -18,6 +22,10 @@ func (f *Readme) SetTemplateDefaults() error {
 	if f.Path == "" {
 		f.Path = "README.md"
 	}
+
+	f.License = strings.Replace(
+		strings.Replace(f.Boilerplate, "/*", "", 1),
+		"*/", "", 1)
 
 	f.TemplateBody = fmt.Sprintf(readmeFileTemplate,
 		codeFence("make build"),
