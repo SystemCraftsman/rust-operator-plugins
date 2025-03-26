@@ -79,7 +79,7 @@ cd <project_directory>
 operator-sdk init --plugins rust/v1alpha --domain <your-domain>
 ```
 
-### Initialize a New Operator
+### Create API and Controller Base
 
 To create a new API with resources and the controllers scaffolded, you should run a command as follows:
 
