@@ -30,3 +30,6 @@ go.work.sum
 # Build output
 /bin
 /operator-sdk
+
+# MacOS
+.DS_Store
