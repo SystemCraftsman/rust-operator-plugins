@@ -3,16 +3,29 @@ use kube::CustomResource;
 use schemars::JsonSchema;
 
 #[derive(CustomResource, Deserialize, Serialize, Clone, Debug, JsonSchema)]
-#[kube(kind = "Memcached", group = "cache", version = "v1alpha1", namespaced)]
-#[kube(status = "MemcachedStatus")]
+#[kube(
+    kind = "Memcached",
+    group = "cache.example.com",
+    version = "v1alpha1",
+    namespaced,
+    status = "MemcachedStatus"
+)]
 pub struct MemcachedSpec {
-    // INSERT ADDITIONAL SPEC FIELDS - desired state of cluster
+    pub size: i32,
 
-    // foo is an example field of Memcached. Edit memcached_types.rs to remove/update
-    foo: String,
+    #[serde(rename = "containerPort")]
+    pub container_port: i32,
 }
 
 #[derive(Deserialize, Serialize, Clone, Debug, JsonSchema)]
 pub struct MemcachedStatus {
-    // INSERT ADDITIONAL STATUS FIELD - define observed state of cluster
+    pub conditions: Vec<Condition>,
+}
+
+#[derive(Clone, Debug, Deserialize, Serialize, JsonSchema, Default)]
+pub struct Condition {
+    pub type_: String,
+    pub status: String,
+    pub reason: Option<String>,
+    pub message: Option<String>,
 }
