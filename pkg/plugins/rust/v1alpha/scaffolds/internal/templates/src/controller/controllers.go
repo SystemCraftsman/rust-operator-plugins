@@ -59,7 +59,7 @@ impl Reconciler<{{ .Resource.Kind }}> for {{ .Resource.Kind }}Reconciler {
     async fn reconcile(obj: Arc<{{ .Resource.Kind }}>, _ctx: Arc<ContextData>) -> Result<Action, Error> {
         // TODO(user): your logic here
 		println!("reconcile request: {}", obj.name_any());
-        Ok(Action::requeue(Duration::from_secs(3600)))
+        Ok(Action::requeue(Duration::from_secs(60)))
     }
 
     fn error_policy(obj: Arc<{{ .Resource.Kind }}>, err: &Error, _ctx: Arc<ContextData>) -> Action {

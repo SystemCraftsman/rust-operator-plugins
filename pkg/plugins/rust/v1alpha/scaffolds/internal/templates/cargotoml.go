@@ -32,7 +32,7 @@ path = "src/crd_generator.rs"
 [dependencies]
 futures = "0.3.31"
 k8s-openapi = { version = "0.24.0", features = ["latest"] }
-kube = { version = "0.98.0", features = ["runtime", "client", "derive"] }
+kube = { version = "0.99.0", features = ["runtime", "client", "derive"] }
 thiserror = "2.0.8"
 tokio = { version = "1.42.0", features = ["macros", "rt-multi-thread", "rt"] }
 schemars = "0.8.21"
