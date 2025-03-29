@@ -49,8 +49,8 @@ use schemars::JsonSchema;
     group = "{{ .Resource.Group }}",
     version = "{{ .Resource.Version }}",
     namespaced
+	status = "{{ .Resource.Kind }}Status"
 )]
-#[kube(status = "{{ .Resource.Kind }}Status")]
 pub struct {{ .Resource.Kind }}Spec {
 	// INSERT ADDITIONAL SPEC FIELDS - desired state of cluster
 
