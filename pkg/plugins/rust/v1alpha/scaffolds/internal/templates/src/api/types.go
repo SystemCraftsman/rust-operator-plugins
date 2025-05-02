@@ -64,7 +64,7 @@ use schemars::JsonSchema;
     kind = "{{ .Resource.Kind }}",
     group = "{{ .Resource.Group }}",
     version = "{{ .Resource.Version }}",
-    namespaced
+    namespaced,
 	status = "{{ .Resource.Kind }}Status"
 )]
 pub struct {{ .Resource.Kind }}Spec {
