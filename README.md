@@ -40,7 +40,7 @@ To install this Rust Operator SDK plugin, use the following steps:
 2. Initialize the Operator SDK within the project:
 
     ```bash
-    make download-sdk
+    make configure-sdk
     ````
 
     This fetches a required version of the Operator SDK, configures it for local development.
