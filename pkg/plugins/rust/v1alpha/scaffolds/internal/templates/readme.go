@@ -72,7 +72,7 @@ const readmeFileTemplate = `# {{ .ProjectName }}
 
 ### Prerequisites
 
-- cargo version 1.86.0
+- cargo version 1.87.0
 - docker version 27.5.0+
 - kubectl version v1.32.1+.
 - Access to a Kubernetes v1.25.3+ cluster.

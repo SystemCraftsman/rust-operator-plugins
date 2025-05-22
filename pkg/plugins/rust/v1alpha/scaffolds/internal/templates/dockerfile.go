@@ -39,7 +39,7 @@ func (f *Dockerfile) SetTemplateDefaults() error {
 	return nil
 }
 
-const dockerfileTemplate = `ARG RUST_VERSION=1.86.0
+const dockerfileTemplate = `ARG RUST_VERSION=1.87.0
 ARG APP_NAME={{ .ProjectName }}
 
 # Build the operator binary.
