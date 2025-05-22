@@ -1,4 +1,4 @@
-![Logo](./plugin_logo_ferris.png|100)
+![Logo](./plugin_logo_ferris.png)
 
 # Rust Operator SDK Plugin
 
