@@ -11,9 +11,9 @@ A Rust-based plugin for the [Operator SDK](https://sdk.operatorframework.io/) th
 
 ## Why Rust?
 
-* [The Rustvolution: How Rust Is the Future of Cloud Native - Flynn, Buoyant](https://www.youtube.com/watch?v=2q3RLffSvEc)
-* [Why the future of the cloud will be built on Rust - Oliver Gould, Buoyant](https://www.youtube.com/watch?v=BWL4889RKhU)
-* [Kubernetes Controllers in Rust: Fast, Safe, Sane - Matei David, Buoyant](https://www.youtube.com/watch?v=rXS-3hFYVjc)
+* [The Rustvolution: How Rust Is the Future of Cloud Native](https://www.youtube.com/watch?v=2q3RLffSvEc)
+* [Why the future of the cloud will be built on Rust](https://www.youtube.com/watch?v=BWL4889RKhU)
+* [Kubernetes Controllers in Rust: Fast, Safe, Sane](https://www.youtube.com/watch?v=rXS-3hFYVjc)
 
 ## Installation
 
