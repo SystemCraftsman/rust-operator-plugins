@@ -6,18 +6,17 @@ require (
 	github.com/onsi/ginkgo v1.16.5
 	github.com/onsi/gomega v1.36.2
 	github.com/sirupsen/logrus v1.9.3
+	github.com/spf13/afero v1.12.0
 	github.com/spf13/pflag v1.0.6
 	k8s.io/apimachinery v0.32.2
-	sigs.k8s.io/kubebuilder/v4 v4.5.1
+	sigs.k8s.io/kubebuilder/v4 v4.2.0
 )
 
 require (
 	github.com/fsnotify/fsnotify v1.4.9 // indirect
 	github.com/gobuffalo/flect v1.0.3 // indirect
 	github.com/google/go-cmp v0.6.0 // indirect
-	github.com/kr/text v0.2.0 // indirect
 	github.com/nxadm/tail v1.4.8 // indirect
-	github.com/spf13/afero v1.12.0 // indirect
 	github.com/stretchr/testify v1.10.0 // indirect
 	golang.org/x/mod v0.23.0 // indirect
 	golang.org/x/net v0.36.0 // indirect
@@ -30,3 +29,5 @@ require (
 	k8s.io/utils v0.0.0-20241210054802-24370beab758 // indirect
 	sigs.k8s.io/yaml v1.4.0 // indirect
 )
+
+replace sigs.k8s.io/kubebuilder/v4 => github.com/mabulgu/kubebuilder/v4 v4.2.1-rust
