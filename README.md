@@ -22,7 +22,7 @@ A Rust-based plugin for the [Operator SDK](https://sdk.operatorframework.io/) th
 Ensure that you have the following installed on your system:
 
 - [Go 1.23.x](https://golang.org/dl/)
-- [Cargo CLI via Rust 1.85.x](https://www.rust-lang.org/)
+- [Cargo CLI via Rust 1.87.x](https://www.rust-lang.org/)
 - [Git CLI](https://git-scm.com/downloads)
 - Make
 
