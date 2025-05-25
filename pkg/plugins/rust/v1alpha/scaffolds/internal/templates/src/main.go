@@ -18,6 +18,7 @@ package src
 
 import (
 	"fmt"
+	"github.com/SystemCraftsman/rust-operator-plugins/pkg/plugins/rust"
 	"path/filepath"
 	"sigs.k8s.io/kubebuilder/v4/pkg/machinery"
 	"strings"
@@ -45,8 +46,8 @@ func (f *Main) SetTemplateDefaults() error {
 	}
 
 	f.TemplateBody = fmt.Sprintf(mainTemplate,
-		machinery.NewMarkerFor(f.Path, importMarker),
-		machinery.NewMarkerFor(f.Path, runnerMarker),
+		rust.NewMarkerFor(f.Path, importMarker),
+		rust.NewMarkerFor(f.Path, runnerMarker),
 	)
 
 	return nil
@@ -75,8 +76,8 @@ func (*MainUpdater) GetIfExistsAction() machinery.IfExistsAction {
 // GetMarkers implements file.Inserter
 func (f *MainUpdater) GetMarkers() []machinery.Marker {
 	return []machinery.Marker{
-		machinery.NewMarkerFor(defaultMainPath, importMarker),
-		machinery.NewMarkerFor(defaultMainPath, runnerMarker),
+		rust.NewMarkerFor(defaultMainPath, importMarker),
+		rust.NewMarkerFor(defaultMainPath, runnerMarker),
 	}
 }
 
@@ -112,10 +113,10 @@ func (f *MainUpdater) GetCodeFragments() machinery.CodeFragmentsMap {
 
 	// Only store code fragments in the map if the slices are non-empty
 	if len(imports) != 0 {
-		fragments[machinery.NewMarkerFor(defaultMainPath, importMarker)] = imports
+		fragments[rust.NewMarkerFor(defaultMainPath, importMarker)] = imports
 	}
 	if len(setup) != 0 {
-		fragments[machinery.NewMarkerFor(defaultMainPath, runnerMarker)] = setup
+		fragments[rust.NewMarkerFor(defaultMainPath, runnerMarker)] = setup
 	}
 
 	return fragments

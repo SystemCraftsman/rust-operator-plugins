@@ -18,6 +18,7 @@ package src
 
 import (
 	"fmt"
+	"github.com/SystemCraftsman/rust-operator-plugins/pkg/plugins/rust"
 	"path/filepath"
 	"sigs.k8s.io/kubebuilder/v4/pkg/machinery"
 	"strings"
@@ -43,7 +44,7 @@ func (f *CRDGenerator) SetTemplateDefaults() error {
 	}
 
 	f.TemplateBody = fmt.Sprintf(crdGeneratorTemplate,
-		machinery.NewMarkerFor(f.Path, writerMarker),
+		rust.NewMarkerFor(f.Path, writerMarker),
 	)
 
 	return nil
@@ -71,7 +72,7 @@ func (*CRDGeneratorUpdater) GetIfExistsAction() machinery.IfExistsAction {
 // GetMarkers implements file.Inserter
 func (f *CRDGeneratorUpdater) GetMarkers() []machinery.Marker {
 	return []machinery.Marker{
-		machinery.NewMarkerFor(defaultCRDGeneratorPath, writerMarker),
+		rust.NewMarkerFor(defaultCRDGeneratorPath, writerMarker),
 	}
 }
 
@@ -97,7 +98,7 @@ func (f *CRDGeneratorUpdater) GetCodeFragments() machinery.CodeFragmentsMap {
 
 	// Only store code fragments in the map if the slices are non-empty
 	if len(writers) != 0 {
-		fragments[machinery.NewMarkerFor(defaultCRDGeneratorPath, writerMarker)] = writers
+		fragments[rust.NewMarkerFor(defaultCRDGeneratorPath, writerMarker)] = writers
 	}
 
 	return fragments

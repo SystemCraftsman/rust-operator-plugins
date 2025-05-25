@@ -13,20 +13,15 @@ var commentsByExt = map[string]string{
 	".rs": "//",
 }
 
-type Marker struct {
-	machinery.Marker
-}
-
-func NewRustMarker(path string, value string) Marker {
+func NewMarkerFor(path string, value string) machinery.Marker {
 	ext := filepath.Ext(path)
 	if comment, ok := commentsByExt[ext]; ok {
-		return Marker{
-			machinery.Marker{
-				Prefix:  markerPrefix(kbPrefix),
-				Comment: comment,
-				Value:   value,
-			},
+		return machinery.Marker{
+			Prefix:  markerPrefix(kbPrefix),
+			Comment: comment,
+			Value:   value,
 		}
+
 	}
 	panic(fmt.Errorf("unsupported file extension: %s", ext))
 }

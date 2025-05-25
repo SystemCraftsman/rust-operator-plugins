@@ -18,6 +18,7 @@ package src
 
 import (
 	"fmt"
+	"github.com/SystemCraftsman/rust-operator-plugins/pkg/plugins/rust"
 	"github.com/SystemCraftsman/rust-operator-plugins/pkg/plugins/rust/v1alpha/constants"
 	"path/filepath"
 	"sigs.k8s.io/kubebuilder/v4/pkg/machinery"
@@ -42,7 +43,7 @@ func (f *Api) SetTemplateDefaults() error {
 	}
 
 	f.TemplateBody = fmt.Sprintf(apiTemplate,
-		machinery.NewMarkerFor(f.Path, constants.ModuleMarker),
+		rust.NewMarkerFor(f.Path, constants.ModuleMarker),
 	)
 
 	return nil
@@ -70,7 +71,7 @@ func (*ApiUpdater) GetIfExistsAction() machinery.IfExistsAction {
 // GetMarkers implements file.Inserter
 func (f *ApiUpdater) GetMarkers() []machinery.Marker {
 	return []machinery.Marker{
-		machinery.NewMarkerFor(defaultApiPath, constants.ModuleMarker),
+		rust.NewMarkerFor(defaultApiPath, constants.ModuleMarker),
 	}
 }
 
@@ -96,7 +97,7 @@ func (f *ApiUpdater) GetCodeFragments() machinery.CodeFragmentsMap {
 
 	// Only store code fragments in the map if the slices are non-empty
 	if len(modules) != 0 {
-		fragments[machinery.NewMarkerFor(defaultApiPath, constants.ModuleMarker)] = modules
+		fragments[rust.NewMarkerFor(defaultApiPath, constants.ModuleMarker)] = modules
 	}
 
 	return fragments
